@@ -1,0 +1,25 @@
+name: hhvm
+version: 0.0.1
+inherits: wercker/ubuntu12.04-webessentials@0.0.5
+type: main
+platform: ubuntu@12.04
+description: wercker box for hhvm
+keywords:
+    - php
+    - hhvm
+    - hack
+packages:
+    - hhvm@3.6
+script: |
+  sudo add-apt-repository ppa:mapnik/boost
+  sudo apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0x5a16e7281be7a449
+  echo deb http://dl.hhvm.com/ubuntu precise main | sudo tee /etc/apt/sources.list.d/hhvm.list
+  sudo apt-get update -y
+  sudo apt-get install hhvm -y
+  sudo update-alternatives --install /usr/bin/php php /usr/bin/hhvm 60
+  curl -O http://getcomposer.org/composer.phar
+  chmod +x composer.phar
+  sudo mv composer.phar /usr/local/bin/composer
+  curl -O https://phar.phpunit.de/phpunit.phar
+  chmod +x phpunit.phar
+  sudo mv phpunit.phar /usr/local/bin/phpunit
